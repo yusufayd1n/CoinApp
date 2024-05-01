@@ -1,6 +1,6 @@
 package com.example.coinapp.model
 
-data class Coin(
+data class Coins(
     val `data`: Data,
     val status: String
 ) {
