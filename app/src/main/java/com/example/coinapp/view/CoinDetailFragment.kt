@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.coinapp.CoinDetailFragmentArgs
 import com.example.coinapp.databinding.FragmentCoinDetailBinding
 import com.example.coinapp.model.Coin
 
@@ -31,7 +30,6 @@ class CoinDetailFragment : Fragment() {
             coin = CoinDetailFragmentArgs.fromBundle(it).CoinData
         }
 
-        binding.tvCoin.text = coin.id
     }
 
 }
