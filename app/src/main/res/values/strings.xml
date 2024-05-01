@@ -4,6 +4,4 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error">Bir hata meydana geldi lütfen tekrar deneyiniz.</string>
     <string name="current_price">Current Price</string>
-    <string name="high_price">High: </string>
-    <string name="low_price">Low: </string>
 </resources>

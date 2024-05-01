@@ -12,10 +12,10 @@
             android:id="@+id/cl_toolBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/cl_coin_prices"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/cl_coin_prices">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
                 android:id="@+id/ib_back"
@@ -50,12 +50,12 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/transparent"
                 android:src="@drawable/ic_notification"
-                android:backgroundTint="@color/transparent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -115,7 +115,7 @@
                     android:id="@+id/tv_coin_high_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/high_price"
+                    android:text="High: "
                     android:textColor="@color/dark_blue"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="@string/low_price"
+                    android:text="Low: "
                     android:textColor="@color/dark_blue"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -151,11 +151,20 @@
                     app:layout_constraintStart_toEndOf="@+id/tv_coin_low_price"
                     app:layout_constraintTop_toTopOf="@+id/tv_coin_low_price"
                     tools:text=" 52,812.13" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_coin_prices" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

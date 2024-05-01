@@ -1,13 +1,19 @@
 package com.example.coinapp.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Coins(
     val `data`: Data,
     val status: String
-) {
+) : Parcelable {
+    @Parcelize
     data class Data(
         val coins: List<Coin>,
         val stats: Stats
-    ) {
+    ) : Parcelable {
+        @Parcelize
         data class Coin(
             val `24hVolume`: String,
             val btcPrice: String,
@@ -26,8 +32,9 @@ data class Coins(
             val symbol: String,
             val tier: Int,
             val uuid: String
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class Stats(
             val total: Int,
             val total24hVolume: String,
@@ -35,6 +42,6 @@ data class Coins(
             val totalExchanges: Int,
             val totalMarketCap: String,
             val totalMarkets: Int
-        )
+        ) : Parcelable
     }
 }

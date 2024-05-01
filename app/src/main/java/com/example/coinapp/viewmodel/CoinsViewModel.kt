@@ -1,6 +1,5 @@
 package com.example.coinapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.coinapp.model.Coins
@@ -30,8 +29,6 @@ class CoinsViewModel : ViewModel() {
                         coins.value = t.data.coins
                         coinError.value = false
                         coinsLoading.value = false
-                        Log.d("YUSUF", coins.value.toString())
-                        Log.d("YUSUF2", t.data.coins.toString())
                     }
 
                     override fun onError(e: Throwable) {

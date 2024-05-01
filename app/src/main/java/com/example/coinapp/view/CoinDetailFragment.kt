@@ -1,19 +1,32 @@
 package com.example.coinapp.view
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
+import com.example.coinapp.R
 import com.example.coinapp.databinding.FragmentCoinDetailBinding
-import com.example.coinapp.model.Coin
+import com.example.coinapp.model.Coins
+import com.example.coinapp.util.formatCurrency
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import java.text.DecimalFormat
 
 class CoinDetailFragment : Fragment() {
-    private lateinit var coin : Coin
-    private lateinit var binding : FragmentCoinDetailBinding
+
+    private lateinit var binding: FragmentCoinDetailBinding
+    private lateinit var coinData: Coins.Data.Coin
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentCoinDetailBinding.inflate(layoutInflater)
+
+
     }
 
     override fun onCreateView(
@@ -25,11 +38,57 @@ class CoinDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         arguments?.let {
-            coin = CoinDetailFragmentArgs.fromBundle(it).CoinData
+            coinData = CoinDetailFragmentArgs.fromBundle(it).coinData
+        }
+        initView()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.ibBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun initView() {
+        val formattedSparkline = coinData.sparkline.map { formatCurrency(it) }
+        binding.apply {
+            tvCoinShortName.text = coinData.symbol
+            tvCoinName.text = coinData.name
+            tvCoinPrice.text = formatCurrency(coinData.price)
+            tvChange.text = coinData.change
+            tvCoinLowPriceValue.text = formattedSparkline.minOrNull()
+            tvCoinHighPriceValue.text = formattedSparkline.maxOrNull()
+
+            if (coinData.change.startsWith("-")) {
+                tvChange.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+            } else {
+                tvChange.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.green
+                    )
+                )
+            }
+
         }
 
+        val sparklineData = coinData.sparkline
+
+        val entries = ArrayList<Entry>()
+        for ((index, value) in sparklineData.withIndex()) {
+            entries.add(Entry(index.toFloat(), value.toFloat()))
+        }
+
+        val dataSet = LineDataSet(entries, "Price")
+        dataSet.color = Color.BLUE
+        dataSet.valueTextColor = Color.BLACK
+
+        val lineData = LineData(dataSet)
+        binding.lineChart.data = lineData
+        binding.lineChart.invalidate()
     }
+
 
 }
