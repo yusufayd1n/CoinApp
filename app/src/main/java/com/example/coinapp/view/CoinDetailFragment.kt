@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -54,8 +55,18 @@ class CoinDetailFragment : Fragment() {
         binding.ibBack.setOnClickListener {
             findNavController().popBackStack()
         }
-        binding.tvRank.setOnClickListener {
-            viewModel.addCoinToFavorites(DaoModel(coinData.uuid))
+        binding.ivFavorite.setOnClickListener {
+            if (coinData.isFavorite) {
+                coinData.isFavorite = false
+                viewModel.removeCoinFromFavorites(DaoModel(coinData.uuid))
+                Toast.makeText(requireContext(), "Removed from favorites", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                coinData.isFavorite = true
+                viewModel.addCoinToFavorites(DaoModel(coinData.uuid))
+                Toast.makeText(requireContext(), "Added to favorites", Toast.LENGTH_SHORT).show()
+            }
+            setIsFavorite()
         }
 
     }
@@ -84,6 +95,7 @@ class CoinDetailFragment : Fragment() {
 
         }
         setGraphicData()
+        setIsFavorite()
     }
 
     private fun setGraphicData() {
@@ -101,6 +113,14 @@ class CoinDetailFragment : Fragment() {
         val lineData = LineData(dataSet)
         binding.lineChart.data = lineData
         binding.lineChart.invalidate()
+    }
+
+    private fun setIsFavorite() {
+        if (coinData.isFavorite) {
+            binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
+        } else {
+            binding.ivFavorite.setImageResource(R.drawable.ic_not_favorite)
+        }
     }
 
 

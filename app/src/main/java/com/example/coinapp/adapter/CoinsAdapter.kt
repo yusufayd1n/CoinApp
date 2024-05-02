@@ -1,6 +1,7 @@
 package com.example.coinapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -48,7 +49,9 @@ class CoinsAdapter(val coinArrayList: ArrayList<Coins.Data.Coin>) :
             }
 
             if (coinArrayList[position].isFavorite) {
-                clCoin.background = R.drawable.bg_favorite_constraint_layout.toDrawable()
+                ivFavorite.visibility = View.VISIBLE
+            } else {
+                ivFavorite.visibility = View.GONE
             }
 
             holder.binding.root.setOnClickListener {
