@@ -1,6 +1,7 @@
 package com.example.coinapp.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.coinapp.adapter.CoinsAdapter
 import com.example.coinapp.databinding.FragmentCoinsBinding
+import com.example.coinapp.model.DaoModel
 import com.example.coinapp.viewmodel.CoinsViewModel
 
 class CoinsFragment : Fragment() {
@@ -34,6 +36,7 @@ class CoinsFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this)[CoinsViewModel::class.java]
         viewModel.getCoinsFromAPI()
+        viewModel.getAllFavoritesCoins()
         binding.rvCoins.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = coinsAdapter
@@ -47,6 +50,9 @@ class CoinsFragment : Fragment() {
         viewModel.coins.observe(viewLifecycleOwner, Observer { coins ->
             coins?.let {
                 binding.rvCoins.visibility = View.VISIBLE
+                coins.forEach {
+                    it.isFavorite = viewModel.favoritesCoinUUIDList.contains(DaoModel(it.uuid))
+                }
                 coinsAdapter.updateCoinsList(coins)
             } ?: run {
 
@@ -63,13 +69,13 @@ class CoinsFragment : Fragment() {
             }
         })
 
-        viewModel.coinsLoading.observe(viewLifecycleOwner, Observer { loading->
+        viewModel.coinsLoading.observe(viewLifecycleOwner, Observer { loading ->
             loading?.let {
-                if(loading){
+                if (loading) {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.rvCoins.visibility = View.GONE
                     binding.tvError.visibility = View.GONE
-                }else{
+                } else {
                     binding.progressBar.visibility = View.GONE
                 }
             }

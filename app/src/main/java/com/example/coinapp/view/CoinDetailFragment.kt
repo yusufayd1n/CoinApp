@@ -8,24 +8,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.coinapp.R
 import com.example.coinapp.databinding.FragmentCoinDetailBinding
 import com.example.coinapp.model.Coins
+import com.example.coinapp.model.DaoModel
 import com.example.coinapp.util.formatCurrency
+import com.example.coinapp.util.loadUrl
+import com.example.coinapp.viewmodel.CoinDetailViewModel
+import com.example.coinapp.viewmodel.CoinsViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import java.text.DecimalFormat
 
 class CoinDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentCoinDetailBinding
     private lateinit var coinData: Coins.Data.Coin
+    private lateinit var viewModel: CoinDetailViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentCoinDetailBinding.inflate(layoutInflater)
-
 
     }
 
@@ -41,6 +45,7 @@ class CoinDetailFragment : Fragment() {
         arguments?.let {
             coinData = CoinDetailFragmentArgs.fromBundle(it).coinData
         }
+        viewModel = ViewModelProviders.of(this)[CoinDetailViewModel::class.java]
         initView()
         initListeners()
     }
@@ -49,6 +54,10 @@ class CoinDetailFragment : Fragment() {
         binding.ibBack.setOnClickListener {
             findNavController().popBackStack()
         }
+        binding.tvRank.setOnClickListener {
+            viewModel.addCoinToFavorites(DaoModel(coinData.uuid))
+        }
+
     }
 
     private fun initView() {
@@ -58,9 +67,10 @@ class CoinDetailFragment : Fragment() {
             tvCoinName.text = coinData.name
             tvCoinPrice.text = formatCurrency(coinData.price)
             tvChange.text = coinData.change
+            tvRank.text = getString(R.string.rank_text, coinData.rank.toString())
             tvCoinLowPriceValue.text = formattedSparkline.minOrNull()
             tvCoinHighPriceValue.text = formattedSparkline.maxOrNull()
-
+            ivCoin.loadUrl(coinData.iconUrl)
             if (coinData.change.startsWith("-")) {
                 tvChange.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
             } else {
@@ -73,7 +83,10 @@ class CoinDetailFragment : Fragment() {
             }
 
         }
+        setGraphicData()
+    }
 
+    private fun setGraphicData() {
         val sparklineData = coinData.sparkline
 
         val entries = ArrayList<Entry>()

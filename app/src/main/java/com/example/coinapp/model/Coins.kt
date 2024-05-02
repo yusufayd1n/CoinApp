@@ -31,7 +31,8 @@ data class Coins(
             val sparkline: List<String>,
             val symbol: String,
             val tier: Int,
-            val uuid: String
+            val uuid: String,
+            var isFavorite: Boolean = false
         ) : Parcelable
 
         @Parcelize
@@ -45,3 +46,5 @@ data class Coins(
         ) : Parcelable
     }
 }
+
+

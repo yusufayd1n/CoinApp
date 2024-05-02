@@ -4,4 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error">Bir hata meydana geldi lütfen tekrar deneyiniz.</string>
     <string name="current_price">Current Price</string>
+    <string name="rank_text">Rank: %s</string>
+    <string name="change_rate_text">%s%</string>
 </resources>

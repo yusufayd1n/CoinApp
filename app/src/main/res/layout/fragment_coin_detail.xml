@@ -47,13 +47,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_coin_short_name"
                 tools:text="Bitcoin" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/iv_coin"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/transparent"
-                android:src="@drawable/ic_notification"
+                android:src="@drawable/eth"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,14 +113,25 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
+                    android:id="@+id/tv_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_coin_high_price"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Rank: 1" />
+
+                <TextView
                     android:id="@+id/tv_coin_high_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="High: "
                     android:textColor="@color/dark_blue"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_rank" />
 
                 <TextView
                     android:id="@+id/tv_coin_high_price_value"
@@ -153,6 +165,7 @@
                     tools:text=" 52,812.13" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

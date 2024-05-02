@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_coin"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginHorizontal="4dp"
