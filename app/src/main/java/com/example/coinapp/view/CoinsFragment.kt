@@ -1,7 +1,6 @@
 package com.example.coinapp.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.coinapp.adapter.CoinsAdapter
 import com.example.coinapp.databinding.FragmentCoinsBinding
 import com.example.coinapp.model.DaoModel
@@ -44,6 +44,15 @@ class CoinsFragment : Fragment() {
 
         observeCoins()
 
+        binding.rvCoins.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (!recyclerView.canScrollVertically(1) && dy > 0) {
+                    viewModel.getCoinsFromAPI()
+                }
+            }
+        })
     }
 
     private fun observeCoins() {

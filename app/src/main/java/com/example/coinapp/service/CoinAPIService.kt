@@ -16,7 +16,7 @@ class CoinAPIService {
         .build()
         .create(CoinAPI::class.java)
 
-    fun getData() : Single<Coins> {
-        return api.getCoins()
+    fun getData(offset: Int) : Single<Coins> {
+        return api.getCoins(offset)
     }
 }

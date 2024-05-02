@@ -2,7 +2,6 @@ package com.example.coinapp.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.coinapp.model.Coins
 import com.example.coinapp.model.DaoModel
 import com.example.coinapp.service.CoinAPIService
@@ -21,18 +20,21 @@ class CoinsViewModel(application: Application) : BaseViewModel(application) {
     val coinError = MutableLiveData<Boolean>()
     val coinsLoading = MutableLiveData<Boolean>()
     var favoritesCoinUUIDList = listOf<DaoModel>()
+    var offset = 0
     fun getCoinsFromAPI() {
         coinsLoading.value = true
 
         disposable.add(
-            coinAPIService.getData()
+            coinAPIService.getData(offset)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<Coins>() {
                     override fun onSuccess(t: Coins) {
-                        coins.value = t.data.coins
+                        val currentList = coins.value ?: emptyList()
+                        coins.value = currentList + t.data.coins
                         coinError.value = false
                         coinsLoading.value = false
+                        offset += 50
                     }
 
                     override fun onError(e: Throwable) {
