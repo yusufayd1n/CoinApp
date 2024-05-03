@@ -1,7 +1,6 @@
 package com.example.coinapp.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.coinapp.model.Coins
 import com.example.coinapp.model.DaoModel
@@ -42,6 +41,8 @@ class CoinsViewModel(application: Application) : BaseViewModel(application) {
 
                         filteredCoins.value = emptyList()
                         filteredOffset = 0
+
+                        getFavoriteCoins(coins = coins.value!!)
                     }
 
                     override fun onError(e: Throwable) {
@@ -71,6 +72,8 @@ class CoinsViewModel(application: Application) : BaseViewModel(application) {
 
                         coins.value = emptyList()
                         offset = 0
+
+                        getFavoriteCoins(coins = filteredCoins.value!!)
                     }
 
                     override fun onError(e: Throwable) {
@@ -90,8 +93,14 @@ class CoinsViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
+    fun getFavoriteCoins(coins: List<Coins.Data.Coin>) {
+        coins.forEach {
+            it.isFavorite = favoritesCoinUUIDList.contains(DaoModel(it.uuid))
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
-        disposable.dispose()
+        disposable.clear()
     }
 }

@@ -17,10 +17,10 @@
                 android:id="@+id/sp_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="12dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/rv_coins"
-                android:layout_margin="12dp"/>
+
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_filter"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="filtrele"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_clear_filter"
@@ -36,17 +36,18 @@
                 android:layout_height="wrap_content"
                 android:text="temizle"
                 app:layout_constraintEnd_toStartOf="@+id/btn_filter"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_coins"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sp_filter"
-                tools:listitem="@layout/item_coin"/>
+                tools:listitem="@layout/item_coin" />
 
             <TextView
                 android:id="@+id/tv_error"

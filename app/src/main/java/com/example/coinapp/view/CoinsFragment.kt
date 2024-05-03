@@ -1,21 +1,17 @@
 package com.example.coinapp.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coinapp.R
 import com.example.coinapp.adapter.CoinsAdapter
 import com.example.coinapp.databinding.FragmentCoinsBinding
-import com.example.coinapp.model.DaoModel
 import com.example.coinapp.viewmodel.CoinsViewModel
 
 class CoinsFragment : Fragment() {
@@ -27,6 +23,8 @@ class CoinsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentCoinsBinding.inflate(layoutInflater)
+        viewModel = ViewModelProviders.of(this)[CoinsViewModel::class.java]
+        viewModel.getCoinsFromAPI()
     }
 
     override fun onCreateView(
@@ -38,9 +36,6 @@ class CoinsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this)[CoinsViewModel::class.java]
-        viewModel.getCoinsFromAPI()
         viewModel.getAllFavoritesCoins()
         setAdapter()
 
@@ -53,7 +48,6 @@ class CoinsFragment : Fragment() {
     private fun initListeners() {
         binding.btnFilter.setOnClickListener {
             if (selectedItem != binding.spFilter.selectedItem.toString()) {
-                //viewModel.filteredOffset = 0
                 viewModel.filteredCoins.value = emptyList()
                 viewModel.filteredOffset = 0
             }
@@ -76,16 +70,6 @@ class CoinsFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spFilter.adapter = adapter
         }
-
-        /*binding.spFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Hiçbir şey seçilmediğinde yapılacak işlemler
-            }
-        }*/
     }
 
     private fun setAdapter() {
@@ -115,9 +99,6 @@ class CoinsFragment : Fragment() {
         viewModel.coins.observe(viewLifecycleOwner) { coins ->
             if (!coins.isNullOrEmpty()) {
                 binding.rvCoins.visibility = View.VISIBLE
-                coins.forEach {
-                    it.isFavorite = viewModel.favoritesCoinUUIDList.contains(DaoModel(it.uuid))
-                }
                 coinsAdapter.updateCoinsList(coins)
             }
         }
@@ -125,9 +106,6 @@ class CoinsFragment : Fragment() {
         viewModel.filteredCoins.observe(viewLifecycleOwner) { coins ->
             if (!coins.isNullOrEmpty()) {
                 binding.rvCoins.visibility = View.VISIBLE
-                coins.forEach {
-                    it.isFavorite = viewModel.favoritesCoinUUIDList.contains(DaoModel(it.uuid))
-                }
                 coinsAdapter.updateCoinsList(coins)
             }
         }
