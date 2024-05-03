@@ -37,13 +37,20 @@ class CoinsFragment : Fragment() {
         viewModel = ViewModelProviders.of(this)[CoinsViewModel::class.java]
         viewModel.getCoinsFromAPI()
         viewModel.getAllFavoritesCoins()
+        setAdapter()
+
+        observeCoins()
+        observeRecyclerview()
+    }
+
+    private fun setAdapter(){
         binding.rvCoins.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = coinsAdapter
         }
+    }
 
-        observeCoins()
-
+    private fun observeRecyclerview() {
         binding.rvCoins.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

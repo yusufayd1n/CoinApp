@@ -59,9 +59,7 @@ class CoinsAdapter(val coinArrayList: ArrayList<Coins.Data.Coin>) :
                     CoinsFragmentDirections.actionCoinsFragmentToCoinDetailFragment(coinArrayList[position])
                 Navigation.findNavController(it).navigate(action)
             }
-
         }
-
     }
 
     fun updateCoinsList(newCoinsList: List<Coins.Data.Coin>) {
