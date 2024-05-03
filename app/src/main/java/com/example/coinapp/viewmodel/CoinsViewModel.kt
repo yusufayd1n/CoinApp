@@ -25,7 +25,9 @@ class CoinsViewModel(application: Application) : BaseViewModel(application) {
     var filteredOffset = 0
 
     fun getCoinsFromAPI() {
-        coinsLoading.value = true
+        if (offset == 0) {
+            coinsLoading.value = true
+        }
 
         disposable.add(
             coinAPIService.getData(offset)
@@ -56,7 +58,9 @@ class CoinsViewModel(application: Application) : BaseViewModel(application) {
     }
 
     fun getCoinsFromAPIByOrder(orderBy: String) {
-        coinsLoading.value = true
+        if (filteredOffset == 0) {
+            coinsLoading.value = true
+        }
 
         disposable.add(
             coinAPIService.getDataByOrder(filteredOffset, orderBy)
