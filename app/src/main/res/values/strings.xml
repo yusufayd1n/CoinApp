@@ -5,6 +5,8 @@
     <string name="error">A service related error occurred.</string>
     <string name="current_price">Current Price</string>
     <string name="rank_text">Rank: %s</string>
+    <string name="filter">Filter</string>
+    <string name="clear_filter">Clear Filter</string>
 
     <string-array name="filter_items">
         <item>price</item>
