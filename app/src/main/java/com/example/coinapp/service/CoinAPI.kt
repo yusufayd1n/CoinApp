@@ -11,4 +11,11 @@ interface CoinAPI {
         @Query("offset") offset: Int = 0,
         @Query("access_token") accessToken: String = "coinranking1253b1a33703587e28428a74642b513d31c1071fc649d466"
     ): Single<Coins>
+
+    @GET("v2/coins")
+    fun getCoinsByOrder(
+        @Query("access_token") accessToken: String = "coinranking1253b1a33703587e28428a74642b513d31c1071fc649d466",
+        @Query("offset") offset: Int = 0,
+        @Query("orderBy") orderBy: String
+    ): Single<Coins>
 }

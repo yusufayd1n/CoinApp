@@ -1,5 +1,6 @@
 package com.example.coinapp.view
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -71,18 +72,19 @@ class CoinDetailFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView() {
-        val formattedSparkline = coinData.sparkline.map { formatCurrency(it) }
+        val formattedSparkline = coinData.sparkline.map { formatCurrency(it ?: "0") }
         binding.apply {
             tvCoinShortName.text = coinData.symbol
             tvCoinName.text = coinData.name
             tvCoinPrice.text = formatCurrency(coinData.price)
-            tvChange.text = coinData.change
+            tvChange.text = "%${coinData.change ?: "0"}"
             tvRank.text = getString(R.string.rank_text, coinData.rank.toString())
             tvCoinLowPriceValue.text = formattedSparkline.minOrNull()
             tvCoinHighPriceValue.text = formattedSparkline.maxOrNull()
             ivCoin.loadUrl(coinData.iconUrl)
-            if (coinData.change.startsWith("-")) {
+            if (coinData.change?.startsWith("-") == true) {
                 tvChange.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
             } else {
                 tvChange.setTextColor(
@@ -103,7 +105,7 @@ class CoinDetailFragment : Fragment() {
 
         val entries = ArrayList<Entry>()
         for ((index, value) in sparklineData.withIndex()) {
-            entries.add(Entry(index.toFloat(), value.toFloat()))
+            entries.add(Entry(index.toFloat(), value?.toFloat() ?: 0f))
         }
 
         val dataSet = LineDataSet(entries, "Price")

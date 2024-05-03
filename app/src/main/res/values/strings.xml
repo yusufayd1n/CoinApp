@@ -2,8 +2,15 @@
     <string name="app_name">CoinApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="error">Bir hata meydana geldi lütfen tekrar deneyiniz.</string>
+    <string name="error">A service related error occurred.</string>
     <string name="current_price">Current Price</string>
     <string name="rank_text">Rank: %s</string>
-    <string name="change_rate_text">%s%</string>
+
+    <string-array name="filter_items">
+        <item>price</item>
+        <item>marketCap</item>
+        <item>24hVolume</item>
+        <item>change</item>
+        <item>listedAt</item>
+    </string-array>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.coinapp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.coinapp.model.Coins
 import com.example.coinapp.model.DaoModel
@@ -17,10 +18,13 @@ class CoinsViewModel(application: Application) : BaseViewModel(application) {
     private val disposable = CompositeDisposable()
 
     val coins = MutableLiveData<List<Coins.Data.Coin>>()
+    val filteredCoins = MutableLiveData<List<Coins.Data.Coin>>()
     val coinError = MutableLiveData<Boolean>()
     val coinsLoading = MutableLiveData<Boolean>()
     var favoritesCoinUUIDList = listOf<DaoModel>()
     var offset = 0
+    var filteredOffset = 0
+
     fun getCoinsFromAPI() {
         coinsLoading.value = true
 
@@ -35,6 +39,38 @@ class CoinsViewModel(application: Application) : BaseViewModel(application) {
                         coinError.value = false
                         coinsLoading.value = false
                         offset += 50
+
+                        filteredCoins.value = emptyList()
+                        filteredOffset = 0
+                    }
+
+                    override fun onError(e: Throwable) {
+                        coinsLoading.value = false
+                        coinError.value = true
+                        e.printStackTrace()
+                    }
+
+                })
+        )
+    }
+
+    fun getCoinsFromAPIByOrder(orderBy: String) {
+        coinsLoading.value = true
+
+        disposable.add(
+            coinAPIService.getDataByOrder(filteredOffset, orderBy)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<Coins>() {
+                    override fun onSuccess(t: Coins) {
+                        val currentList = filteredCoins.value ?: emptyList()
+                        filteredCoins.value = currentList + t.data.coins
+                        coinError.value = false
+                        coinsLoading.value = false
+                        filteredOffset += 50
+
+                        coins.value = emptyList()
+                        offset = 0
                     }
 
                     override fun onError(e: Throwable) {
@@ -52,6 +88,10 @@ class CoinsViewModel(application: Application) : BaseViewModel(application) {
             val dao = CoinDataBase(getApplication()).coinDao()
             favoritesCoinUUIDList = dao.getFavoriteCoins()
         }
+    }
 
+    override fun onCleared() {
+        super.onCleared()
+        disposable.dispose()
     }
 }

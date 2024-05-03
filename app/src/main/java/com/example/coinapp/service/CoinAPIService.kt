@@ -16,7 +16,11 @@ class CoinAPIService {
         .build()
         .create(CoinAPI::class.java)
 
-    fun getData(offset: Int) : Single<Coins> {
+    fun getData(offset: Int): Single<Coins> {
         return api.getCoins(offset)
+    }
+
+    fun getDataByOrder(offset: Int, orderBy: String): Single<Coins> {
+        return api.getCoinsByOrder(offset = offset, orderBy = orderBy)
     }
 }

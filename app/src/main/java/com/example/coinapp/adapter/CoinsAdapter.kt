@@ -1,10 +1,10 @@
 package com.example.coinapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coinapp.R
@@ -29,23 +29,19 @@ class CoinsAdapter(val coinArrayList: ArrayList<Coins.Data.Coin>) :
         return coinArrayList.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CoinsViewHolder, position: Int) {
         holder.binding.apply {
             tvShortCoinName.text = coinArrayList[position].symbol
             tvCoinName.text = coinArrayList[position].name
             tvCoinPrice.text = formatCurrency(coinArrayList[position].price)
-            tvChange.text = coinArrayList[position].change + "%"
             ivCoin.loadUrl(coinArrayList[position].iconUrl)
+            tvChange.text = "${coinArrayList[position].change ?: "0"}%"
 
-            if (coinArrayList[position].change.startsWith("-")) {
+            if (coinArrayList[position].change?.startsWith("-") == true) {
                 tvChange.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
             } else {
-                tvChange.setTextColor(
-                    ContextCompat.getColor(
-                        holder.itemView.context,
-                        R.color.green
-                    )
-                )
+                tvChange.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
             }
 
             if (coinArrayList[position].isFavorite) {
