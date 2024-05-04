@@ -34,7 +34,7 @@ class CoinsAdapter(val coinArrayList: ArrayList<Coins.Data.Coin>) :
         holder.binding.apply {
             tvShortCoinName.text = coinArrayList[position].symbol
             tvCoinName.text = coinArrayList[position].name
-            tvCoinPrice.text = formatCurrency(coinArrayList[position].price)
+            tvCoinPrice.text = coinArrayList[position].price?.let { formatCurrency(it) }
             ivCoin.loadUrl(coinArrayList[position].iconUrl)
             tvChange.text = "${coinArrayList[position].change ?: "0"}%"
 

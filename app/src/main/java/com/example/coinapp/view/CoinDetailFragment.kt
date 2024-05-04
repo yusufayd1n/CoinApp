@@ -74,11 +74,11 @@ class CoinDetailFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
-        val formattedSparkline = coinData.sparkline.map { formatCurrency(it ?: "0") }
+        val formattedSparkline = coinData.sparkline.map { it?.let { it1 -> formatCurrency(it1) } }.filterNotNull()
         binding.apply {
             tvCoinShortName.text = coinData.symbol
             tvCoinName.text = coinData.name
-            tvCoinPrice.text = formatCurrency(coinData.price)
+            tvCoinPrice.text = coinData.price?.let { formatCurrency(it) }
             tvChange.text = "%${coinData.change ?: "0"}"
             tvRank.text = getString(R.string.rank_text, coinData.rank.toString())
             tvCoinLowPriceValue.text = formattedSparkline.minOrNull()
@@ -105,7 +105,7 @@ class CoinDetailFragment : Fragment() {
 
         val entries = ArrayList<Entry>()
         for ((index, value) in sparklineData.withIndex()) {
-            entries.add(Entry(index.toFloat(), value?.toFloat() ?: 0f))
+            value?.toFloat()?.let { Entry(index.toFloat(), it) }?.let { entries.add(it) }
         }
 
         val dataSet = LineDataSet(entries, "Price")
