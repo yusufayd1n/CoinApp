@@ -10,9 +10,11 @@
 
         <Spinner
             android:id="@+id/sp_filter"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,8 +25,9 @@
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/dark_blue"
             android:text="@string/filter"
+            app:layout_constraintBottom_toBottomOf="@+id/sp_filter"
             app:layout_constraintEnd_toStartOf="@+id/btn_clear_filter"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/sp_filter" />
 
         <Button
             android:id="@+id/btn_clear_filter"
@@ -32,8 +35,9 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/dark_blue"
             android:text="@string/clear_filter"
+            app:layout_constraintBottom_toBottomOf="@+id/sp_filter"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/sp_filter" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_coins"
