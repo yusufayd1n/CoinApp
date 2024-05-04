@@ -124,7 +124,6 @@ class CoinsFragment : Fragment() {
             loading?.let {
                 if (loading) {
                     binding.progressBar.visibility = View.VISIBLE
-                    binding.rvCoins.visibility = View.GONE
                     binding.tvError.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
